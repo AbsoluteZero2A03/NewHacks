@@ -40,7 +40,7 @@ public abstract class HttpGetTask extends AsyncTask<String,Void,HttpResponse> {
         header = headerString;
     }
 
-    public abstract void DoWithDouble(Double d);
+    public abstract void DoWithJSON(JSONObject obj);
 
     protected HttpResponse doInBackground(String... urlStr) {
         HttpClient httpClient = new DefaultHttpClient();
@@ -72,8 +72,9 @@ public abstract class HttpGetTask extends AsyncTask<String,Void,HttpResponse> {
             String s = new String(b);
             try {
                 JSONObject obj = new JSONObject(s);
+                DoWithJSON(obj);
                 double d = obj.getJSONArray("Data").getJSONObject(0).getDouble("FuelEfficiency");
-                System.out.println(d);
+                //System.out.println(d);
             } catch (Exception e) {
                 e.printStackTrace();
             }

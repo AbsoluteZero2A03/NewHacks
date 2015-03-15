@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +45,8 @@ public class MojioInterface extends Activity {
         public void run() {
             HttpGetTask httpGetTask = new HttpGetTask(new ArrayList<NameValuePair>(0), accessToken) {
                 @Override
-                public void DoWithDouble(Double d) {
-                    System.out.println(d);
+                public void DoWithJSON(JSONObject obj) {
+                    //Do whatever with your trips JSON
                 }
             };
             httpGetTask.execute("https://api.moj.io/v1/Trips?limit=10&offset=0&sortBy=StartTime&desc=false&criteria=");
@@ -88,12 +89,11 @@ public class MojioInterface extends Activity {
 
     public void displayJSON(View view) {
         System.out.println(accessToken);
-        HttpGetTask httpGetTask = new HttpGetTask(new ArrayList<NameValuePair>(0), accessToken) {
-            @Override
-            public void DoWithDouble(Double d) {
-                System.out.println(d);
-            }
-        };
-        httpGetTask.execute("https://api.moj.io/v1/Trips?limit=10&offset=0&sortBy=StartTime&desc=false&criteria=");
+//        HttpGetTask httpGetTask = new HttpGetTask(new ArrayList<NameValuePair>(0), accessToken) {
+//            @Override
+//            public void DoWithJSON(JSONObject obj) {
+//            }
+//        };
+//        httpGetTask.execute("https://api.moj.io/v1/Trips?limit=10&offset=0&sortBy=StartTime&desc=false&criteria=");
     }
 }
