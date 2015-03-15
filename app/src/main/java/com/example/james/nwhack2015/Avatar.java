@@ -22,6 +22,11 @@ public class Avatar {
         setMaxExp(10);
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
     public String getName() {
         return name;
     }
@@ -78,7 +83,7 @@ public class Avatar {
         if (health <= 0 && level > 1) {
             level--;
             exp = 0;
-            maxExp -= 10;
+            maxExp -= 20;
             maxHealth -= 15;
             health = maxHealth;
         } else if (health <= 0 && level == 1) {
