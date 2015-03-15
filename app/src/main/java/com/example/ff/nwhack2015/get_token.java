@@ -32,8 +32,6 @@ public class get_token extends Activity {
         m.find();
         String name = m.group(1);
 
-
-
         Intent i = new Intent(this,MojioInterface.class);
         i.putExtra("access_token", name);
         i.putExtra("from","get_token");
