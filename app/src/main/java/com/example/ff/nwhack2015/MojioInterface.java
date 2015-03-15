@@ -42,7 +42,14 @@ public class MojioInterface extends Activity {
     Runnable APIGetter = new Runnable() {
         @Override
         public void run() {
-            new HttpGetTask(new ArrayList<NameValuePair>(0), accessToken).execute("https://api.moj.io/v1/Trips?limit=10&offset=0&sortBy=StartTime&desc=false&criteria=");
+            HttpGetTask httpGetTask = new HttpGetTask(new ArrayList<NameValuePair>(0), accessToken) {
+                @Override
+                public void DoWithDouble(Double d) {
+                    System.out.println(d);
+                }
+            };
+            httpGetTask.execute("https://api.moj.io/v1/Trips?limit=10&offset=0&sortBy=StartTime&desc=false&criteria=");
+
             mHandler.postDelayed(APIGetter,5000);
         }
     };
@@ -81,6 +88,12 @@ public class MojioInterface extends Activity {
 
     public void displayJSON(View view) {
         System.out.println(accessToken);
-        new HttpGetTask(new ArrayList<NameValuePair>(0), accessToken).execute("https://api.moj.io/v1/Trips?limit=10&offset=0&sortBy=StartTime&desc=false&criteria=");
+        HttpGetTask httpGetTask = new HttpGetTask(new ArrayList<NameValuePair>(0), accessToken) {
+            @Override
+            public void DoWithDouble(Double d) {
+                System.out.println(d);
+            }
+        };
+        httpGetTask.execute("https://api.moj.io/v1/Trips?limit=10&offset=0&sortBy=StartTime&desc=false&criteria=");
     }
 }
