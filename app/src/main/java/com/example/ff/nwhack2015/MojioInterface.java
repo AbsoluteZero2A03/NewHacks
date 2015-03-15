@@ -7,9 +7,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.james.nwhack2015.Action;
 import com.example.james.nwhack2015.Avatar;
@@ -28,6 +30,8 @@ public class MojioInterface extends Activity {
 
     private ProgressBar healthBar;
     private ProgressBar expBar;
+    private TextView healthText;
+    private TextView expText;
     private ListView actions;
     private ArrayAdapter<Action> mActionAdapter;
     private Handler mHandler;
@@ -37,24 +41,45 @@ public class MojioInterface extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mojio_interface);
 
-        Avatar me = new Avatar("Fred");
+        final Avatar me = new Avatar("Fred");
 
         healthBar = (ProgressBar) findViewById(R.id.healthbar);
         expBar = (ProgressBar) findViewById(R.id.expbar);
+        healthText = (TextView) findViewById(R.id.health);
+        expText = (TextView) findViewById(R.id.exp);
 
         actions = (ListView) findViewById(R.id.tasks);
 
+        //set progress bars
         healthBar.setMax(me.getMaxHealth());
         expBar.setMax(me.getMaxExp());
         healthBar.setProgress(me.getHealth());
         expBar.setProgress(me.getExp());
 
+        //set progress fractions
+        healthText.setText(String.format("Health %d / %d", me.getHealth(), me.getMaxHealth()));
+        expText.setText(String.format("Experience %d / % d", me.getExp(), me.getMaxExp()));
         mHandler = new Handler();
 
         //fill adapter and put in list view
         mActionAdapter = new ArrayAdapter<Action>(getApplicationContext(), android.R.layout.simple_list_item_1);
         mActionAdapter.add(new Action("Bike to work", "Eco friendly"));
         actions.setAdapter(mActionAdapter);
+        actions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Action action = mActionAdapter.getItem(position);
+                action.effect(me);
+
+                healthBar.setMax(me.getMaxHealth());
+                expBar.setMax(me.getMaxExp());
+                healthBar.setProgress(me.getHealth());
+                expBar.setProgress(me.getExp());
+
+                healthText.setText(String.format("Health %d / %d", me.getHealth(), me.getMaxHealth()));
+                expText.setText(String.format("Experience %d / % d", me.getExp(), me.getMaxExp()));
+            }
+        });
     }
     Runnable APIGetter = new Runnable() {
         @Override
