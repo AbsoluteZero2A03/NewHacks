@@ -71,6 +71,7 @@ public class MojioInterface extends Activity {
         //fill adapter and put in list view
         mActionAdapter = new ArrayAdapter<Action>(getApplicationContext(), android.R.layout.simple_list_item_1);
         mActionAdapter.add(new Action("Bike to work", "Eco friendly"));
+        mActionAdapter.add(new Action("Drive to work", "Eco unfriendly", false, false, 2));
         actions.setAdapter(mActionAdapter);
         actions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
