@@ -2,6 +2,7 @@ package com.example.ff.nwhack2015;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,18 +18,30 @@ import java.util.jar.Attributes;
 
 public class MojioInterface extends Activity {
     private String accessToken;
+    private Handler mHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mojio_interface);
+        mHandler = new Handler();
     }
+    Runnable APIGetter = new Runnable() {
+        @Override
+        public void run() {
+            new HttpGetTask(new ArrayList<NameValuePair>(0), accessToken).execute("https://api.moj.io/v1/Trips?limit=10&offset=0&sortBy=StartTime&desc=false&criteria=");
+            mHandler.postDelayed(APIGetter,5000);
+        }
+    };
+
 
     @Override
     protected void onStart() {
         super.onStart();
         Bundle extras = getIntent().getExtras();
         accessToken = extras.getString("access_token");
+        APIGetter.run();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
