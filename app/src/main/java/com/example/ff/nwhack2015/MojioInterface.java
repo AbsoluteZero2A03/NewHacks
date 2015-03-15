@@ -27,38 +27,34 @@ import java.util.jar.Attributes;
 
 public class MojioInterface extends Activity {
     private String accessToken;
-
+    private Avatar player;
     private ProgressBar healthBar;
     private ProgressBar expBar;
     private TextView healthText;
     private TextView expText;
+    private TextView levelText;
     private ListView actions;
     private ArrayAdapter<Action> mActionAdapter;
     private Handler mHandler;
+    private TextView information;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mojio_interface);
 
-        final Avatar me = new Avatar("Fred");
+        player = new Avatar("Fred");
 
         healthBar = (ProgressBar) findViewById(R.id.healthbar);
         expBar = (ProgressBar) findViewById(R.id.expbar);
         healthText = (TextView) findViewById(R.id.health);
         expText = (TextView) findViewById(R.id.exp);
-
+        levelText = (TextView) findViewById(R.id.level);
         actions = (ListView) findViewById(R.id.tasks);
+        information = (TextView) findViewById(R.id.information);
 
-        //set progress bars
-        healthBar.setMax(me.getMaxHealth());
-        expBar.setMax(me.getMaxExp());
-        healthBar.setProgress(me.getHealth());
-        expBar.setProgress(me.getExp());
+        updateAvatarStats();
 
-        //set progress fractions
-        healthText.setText(String.format("Health %d / %d", me.getHealth(), me.getMaxHealth()));
-        expText.setText(String.format("Experience %d / % d", me.getExp(), me.getMaxExp()));
         mHandler = new Handler();
 
         //fill adapter and put in list view
@@ -69,18 +65,27 @@ public class MojioInterface extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Action action = mActionAdapter.getItem(position);
-                action.effect(me);
+                action.effect(player);
 
-                healthBar.setMax(me.getMaxHealth());
-                expBar.setMax(me.getMaxExp());
-                healthBar.setProgress(me.getHealth());
-                expBar.setProgress(me.getExp());
-
-                healthText.setText(String.format("Health %d / %d", me.getHealth(), me.getMaxHealth()));
-                expText.setText(String.format("Experience %d / % d", me.getExp(), me.getMaxExp()));
+                updateAvatarStats();
             }
         });
     }
+    private void updateAvatarStats() {
+        //set progress bars
+        healthBar.setMax(player.getMaxHealth());
+        expBar.setMax(player.getMaxExp());
+        healthBar.setProgress(player.getHealth());
+        expBar.setProgress(player.getExp());
+
+        //set progress fractions
+        healthText.setText(String.format("Health %d / %d", player.getHealth(), player.getMaxHealth()));
+        expText.setText(String.format("Exp %d / % d", player.getExp(), player.getMaxExp()));
+
+        //set level
+        levelText.setText(String.format("Level %d", player.getLevel()));
+    }
+
     Runnable APIGetter = new Runnable() {
         @Override
         public void run() {
