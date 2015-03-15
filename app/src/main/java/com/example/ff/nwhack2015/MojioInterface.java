@@ -7,7 +7,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.ProgressBar;
+
+import com.example.james.nwhack2015.Action;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -22,7 +26,8 @@ public class MojioInterface extends Activity {
 
     private ProgressBar healthBar;
     private ProgressBar expBar;
-
+    private ListView actions;
+    private ArrayAdapter<Action> mActionAdapter;
     private Handler mHandler;
 
     @Override
@@ -32,12 +37,18 @@ public class MojioInterface extends Activity {
 
         healthBar = (ProgressBar) findViewById(R.id.healthbar);
         expBar = (ProgressBar) findViewById(R.id.expbar);
+        actions = (ListView) findViewById(R.id.tasks);
+
         healthBar.setMax(100);
         expBar.setMax(100);
         healthBar.setProgress(50);
 
         mHandler = new Handler();
 
+        //fill adapter and put in list view
+        mActionAdapter = new ArrayAdapter<Action>(getApplicationContext(), android.R.layout.simple_list_item_1);
+        mActionAdapter.add(new Action("Bike to work", "Eco friendly"));
+        actions.setAdapter(mActionAdapter);
     }
     Runnable APIGetter = new Runnable() {
         @Override

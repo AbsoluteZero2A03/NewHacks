@@ -11,7 +11,7 @@
 
     <ProgressBar
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="400px"
+        android:layout_width="500px"
         android:layout_height="50px"
         android:id="@+id/expbar"
         android:layout_alignParentBottom="true"
@@ -21,11 +21,22 @@
 
     <ProgressBar
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="400px"
+        android:layout_width="500px"
         android:layout_height="50px"
         android:id="@+id/healthbar"
         android:layout_above="@+id/expbar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:background="#ffff0c00" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tasks"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/expbar"
+        android:layout_toEndOf="@+id/expbar"
+        android:background="#ff6d6d6d" />
 </RelativeLayout>

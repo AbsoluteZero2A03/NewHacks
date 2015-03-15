@@ -35,6 +35,11 @@ public class Action {
         }
     }
 
+    @Override
+    public String toString() {
+        return name + "\n" + description;
+    }
+
     // setters && getters
     public String getName() {
         return name;
