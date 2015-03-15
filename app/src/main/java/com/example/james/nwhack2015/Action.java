@@ -28,6 +28,14 @@ public class Action {
         value = 1;
     }
 
+    public Action(String fred, String derf, boolean pos, boolean day, int val) {
+        name = fred;
+        description = derf;
+        positive = pos;
+        daily = day;
+        value = val;
+    }
+
     // add exp if positive, reduce health if negative
     public void effect(Avatar dude) {
         if (positive) {
