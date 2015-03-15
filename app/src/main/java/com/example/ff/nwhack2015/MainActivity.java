@@ -44,9 +44,6 @@ public class MainActivity extends Activity {
         startActivity(i);
         //Log.d("accessToken", accessToken);
 
-        Avatar me = new Avatar("Fred");
-        Action bike = new Action("Bike to work", "This is more eco-friendly than driving");
-
 
     }
 

@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.example.james.nwhack2015.Avatar;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -30,11 +32,14 @@ public class MojioInterface extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mojio_interface);
 
+        Avatar me = new Avatar("Fred");
+
         healthBar = (ProgressBar) findViewById(R.id.healthbar);
         expBar = (ProgressBar) findViewById(R.id.expbar);
-        healthBar.setMax(100);
-        expBar.setMax(100);
-        healthBar.setProgress(50);
+        healthBar.setMax(me.getMaxHealth());
+        expBar.setMax(me.getMaxExp());
+        healthBar.setProgress(me.getHealth());
+        expBar.setProgress(me.getExp());
 
         mHandler = new Handler();
 
