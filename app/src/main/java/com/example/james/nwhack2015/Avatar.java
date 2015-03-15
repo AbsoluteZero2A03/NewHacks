@@ -66,7 +66,7 @@ public class Avatar {
         if (exp >= maxExp) {
             level++;
             exp = 0;
-            maxExp += 10;
+            maxExp += 20;
             maxHealth += 15;
             health = maxHealth;
         }

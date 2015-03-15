@@ -10,28 +10,28 @@ public class Action {
     private String description; // a brief description of the action
     private boolean positive; // whether it is positive
     private boolean daily; // whether it is daily
-    private int difficulty; // 1 for easy, 2 for medium, 3 for hard
+    private int value; // value used for exp and damage
 
     public Action() {
         positive = true;
         daily = false;
-        difficulty = 1;
+        value = 1;
     }
 
     public Action(String fred, String derf) {
         name = fred;
         description = derf;
         positive = true;
-        daily = true;
-        difficulty = 1;
+        daily = false;
+        value = 1;
     }
 
     // add exp if positive, reduce health if negative
     public void effect(Avatar dude) {
         if (positive) {
-            dude.expUp(difficulty);
+            dude.expUp(value);
         } else {
-            dude.damage(difficulty);
+            dude.damage(value);
         }
     }
 
@@ -48,8 +48,8 @@ public class Action {
     public boolean isDaily() {
         return daily;
     }
-    public int getDifficulty() {
-        return difficulty;
+    public int getValue() {
+        return value;
     }
 
     public void setName(String fred) {
@@ -64,7 +64,7 @@ public class Action {
     public void setDaily(boolean fred) {
         daily = fred;
     }
-    public void setDifficulty(int fred) {
-        difficulty = fred;
+    public void setValue(int fred) {
+        value = fred;
     }
 }
