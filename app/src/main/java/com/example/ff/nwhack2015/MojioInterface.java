@@ -26,8 +26,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.Attributes;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 
 public class MojioInterface extends Activity {

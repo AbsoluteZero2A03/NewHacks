@@ -69,7 +69,7 @@ public class Data {
     }
 
     public void setBestEfficiency(double efficiency) {
-        if (this.bestEfficiency < efficiency) {
+        if (this.bestEfficiency > efficiency) {
             this.bestEfficiency = efficiency;
         }
     }
