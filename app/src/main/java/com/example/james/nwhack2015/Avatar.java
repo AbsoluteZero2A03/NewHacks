@@ -83,7 +83,7 @@ public class Avatar {
             health = maxHealth;
         } else if (health <= 0 && level == 1) {
             exp = 0;
-            health = maxHealth - 3;
+            health = maxHealth;
         }
     }
 
