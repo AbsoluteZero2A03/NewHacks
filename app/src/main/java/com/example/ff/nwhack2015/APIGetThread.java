@@ -23,7 +23,7 @@ public class APIGetThread extends Thread {
 
         super.run();
         try {
-            new HttpGetTask(params,header).execute(urlString);
+            //new HttpGetTask(params,header).execute(urlString);
             try { Thread.sleep(5000); } catch(Exception e) {}
         } catch (Exception e) {
 

@@ -13,6 +13,8 @@ public class Action {
     private int value; // value used for exp and damage
 
     public Action() {
+        name = "";
+        description = "";
         positive = true;
         daily = false;
         value = 1;
@@ -24,6 +26,14 @@ public class Action {
         positive = true;
         daily = false;
         value = 1;
+    }
+
+    public Action(String fred, String derf, boolean pos, boolean day, int val) {
+        name = fred;
+        description = derf;
+        positive = pos;
+        daily = day;
+        value = val;
     }
 
     // add exp if positive, reduce health if negative

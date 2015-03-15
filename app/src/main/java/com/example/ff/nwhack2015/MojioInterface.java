@@ -12,9 +12,11 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.example.james.nwhack2015.Action;
+import com.example.james.nwhack2015.Avatar;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,13 +37,17 @@ public class MojioInterface extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mojio_interface);
 
+        Avatar me = new Avatar("Fred");
+
         healthBar = (ProgressBar) findViewById(R.id.healthbar);
         expBar = (ProgressBar) findViewById(R.id.expbar);
+
         actions = (ListView) findViewById(R.id.tasks);
 
-        healthBar.setMax(100);
-        expBar.setMax(100);
-        healthBar.setProgress(50);
+        healthBar.setMax(me.getMaxHealth());
+        expBar.setMax(me.getMaxExp());
+        healthBar.setProgress(me.getHealth());
+        expBar.setProgress(me.getExp());
 
         mHandler = new Handler();
 
@@ -53,7 +59,14 @@ public class MojioInterface extends Activity {
     Runnable APIGetter = new Runnable() {
         @Override
         public void run() {
-            new HttpGetTask(new ArrayList<NameValuePair>(0), accessToken).execute("https://api.moj.io/v1/Trips?limit=10&offset=0&sortBy=StartTime&desc=false&criteria=");
+            HttpGetTask httpGetTask = new HttpGetTask(new ArrayList<NameValuePair>(0), accessToken) {
+                @Override
+                public void DoWithJSON(JSONObject obj) {
+                    //Do whatever with your trips JSON
+                }
+            };
+            httpGetTask.execute("https://api.moj.io/v1/Trips?limit=10&offset=0&sortBy=StartTime&desc=false&criteria=");
+
             mHandler.postDelayed(APIGetter,5000);
         }
     };
@@ -92,6 +105,11 @@ public class MojioInterface extends Activity {
 
     public void displayJSON(View view) {
         System.out.println(accessToken);
-        new HttpGetTask(new ArrayList<NameValuePair>(0), accessToken).execute("https://api.moj.io/v1/Trips?limit=10&offset=0&sortBy=StartTime&desc=false&criteria=");
+//        HttpGetTask httpGetTask = new HttpGetTask(new ArrayList<NameValuePair>(0), accessToken) {
+//            @Override
+//            public void DoWithJSON(JSONObject obj) {
+//            }
+//        };
+//        httpGetTask.execute("https://api.moj.io/v1/Trips?limit=10&offset=0&sortBy=StartTime&desc=false&criteria=");
     }
 }

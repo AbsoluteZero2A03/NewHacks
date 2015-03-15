@@ -15,6 +15,7 @@ import org.apache.http.message.BasicNameValuePair;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.james.nwhack2015.*;
 
 public class MainActivity extends Activity {
     private List<NameValuePair> getParams = new ArrayList<NameValuePair>(3);

@@ -29,15 +29,18 @@ import java.util.List;
 /**
  * Created by ff on 13/03/15.
  */
-public class HttpGetTask extends AsyncTask<String,Void,HttpResponse> {
+public abstract class HttpGetTask extends AsyncTask<String,Void,HttpResponse> {
     private List<NameValuePair> params;
     private String header;
+    public double returnVal;
 
     public HttpGetTask(List<NameValuePair> param_list, String headerString) {
         super();
         this.params = param_list;
         header = headerString;
     }
+
+    public abstract void DoWithJSON(JSONObject obj);
 
     protected HttpResponse doInBackground(String... urlStr) {
         HttpClient httpClient = new DefaultHttpClient();
@@ -69,8 +72,9 @@ public class HttpGetTask extends AsyncTask<String,Void,HttpResponse> {
             String s = new String(b);
             try {
                 JSONObject obj = new JSONObject(s);
+                DoWithJSON(obj);
                 double d = obj.getJSONArray("Data").getJSONObject(0).getDouble("FuelEfficiency");
-                System.out.println(d);
+                //System.out.println(d);
             } catch (Exception e) {
                 e.printStackTrace();
             }
