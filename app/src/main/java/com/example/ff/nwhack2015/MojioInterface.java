@@ -3,6 +3,7 @@ package com.example.ff.nwhack2015;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,15 +14,21 @@ import com.example.james.nwhack2015.Avatar;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.Attributes;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class MojioInterface extends Activity {
     private String accessToken;
+
+    private Data data;
 
     private ProgressBar healthBar;
     private ProgressBar expBar;
@@ -43,6 +50,7 @@ public class MojioInterface extends Activity {
         expBar.setProgress(me.getExp());
 
         mHandler = new Handler();
+        data = new Data();
 
     }
     Runnable APIGetter = new Runnable() {
@@ -52,6 +60,54 @@ public class MojioInterface extends Activity {
                 @Override
                 public void DoWithJSON(JSONObject obj) {
                     //Do whatever with your trips JSON
+                    JSONArray tripArray = new JSONArray();
+                    try {
+                        tripArray = obj.getJSONArray("Data");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    //
+                    for (int i = 0; i < tripArray.length(); i++) {
+                        JSONObject trip = new JSONObject();
+                        try {
+                            trip = tripArray.getJSONObject(i);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        String timeString = new String();
+                        try {
+                            timeString = trip.getString("Time");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Time tripTime = new Time();
+                        if (!tripTime.parse3339(timeString)) {
+
+                        }
+                        if (data.getLastTimeChecked().before(tripTime)) {
+                            double efficency = -1;
+                            double distance = -1;
+                            try {
+                                efficency = trip.getDouble("FuelEfficiency");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            try {
+                                distance = trip.getDouble("Distance");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            data.setAverageEfficiency(efficency);
+                            data.setLastEfficiency(efficency);
+                            data.setBestEfficiency(efficency);
+                            data.setLastTripDistance(distance);
+                            data.setLongestTripDistance(distance);
+                            data.increaseTotalDistance(distance);
+                            data.increaseNumberOfTrips();
+                            data.setLastTimeChecked(tripTime);
+
+                        }
+                    }
                 }
             };
             httpGetTask.execute("https://api.moj.io/v1/Trips?limit=10&offset=0&sortBy=StartTime&desc=false&criteria=");

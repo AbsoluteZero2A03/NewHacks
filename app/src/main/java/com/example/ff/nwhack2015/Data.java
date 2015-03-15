@@ -17,6 +17,10 @@ public class Data {
 
     private int numberOfTrips;
 
+    public Data() {
+        lastTimeChecked = new Time();
+        lastTimeChecked.setJulianDay(Time.EPOCH_JULIAN_DAY);
+    }
 
     public double getTotalDistance() {
         return this.totalDistance;
@@ -59,11 +63,15 @@ public class Data {
     }
 
     public void setLongestTripDistance(double distance) {
-        this.longestTripDistance = distance;
+        if (this.longestTripDistance < distance) {
+            this.longestTripDistance = distance;
+        }
     }
 
     public void setBestEfficiency(double efficiency) {
-        this.bestEfficiency = efficiency;
+        if (this.bestEfficiency < efficiency) {
+            this.bestEfficiency = efficiency;
+        }
     }
 
     public void setAverageEfficiency(double efficiency) {
@@ -80,7 +88,7 @@ public class Data {
     }
 
     public void setLastTimeChecked(Time newTime) {
-        this.lastTimeChecked = newTime;
+        this.lastTimeChecked = new Time(newTime);
     }
 
 }
