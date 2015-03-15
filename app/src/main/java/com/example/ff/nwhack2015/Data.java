@@ -18,6 +18,12 @@ public class Data {
     private int numberOfTrips;
 
     public Data() {
+        totalDistance = -1;
+        lastEfficiency = -1;
+        longestTripDistance = -1;
+        bestEfficiency = -1;
+        averageEfficiency = -1;
+        lastTripDistance = -1;
         lastTimeChecked = new Time();
         lastTimeChecked.setJulianDay(Time.EPOCH_JULIAN_DAY);
     }

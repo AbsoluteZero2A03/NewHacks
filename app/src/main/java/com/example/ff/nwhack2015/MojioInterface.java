@@ -63,6 +63,7 @@ public class MojioInterface extends Activity {
         mHandler = new Handler();
         data = new Data();
 
+        updateInformation();
         //fill adapter and put in list view
         mActionAdapter = new ArrayAdapter<Action>(getApplicationContext(), android.R.layout.simple_list_item_1);
         mActionAdapter.add(new Action("Bike to work", "Eco friendly"));
@@ -93,13 +94,21 @@ public class MojioInterface extends Activity {
         levelText.setText(String.format("Level %d", player.getLevel()));
     }
 
+    private void updateInformation() {
+        information.setText(String.format("%s\n", data.getLastTimeChecked().format3339(true)));
+        information.append(String.format("Max eff.: %g\n", data.getLastEfficiency()));
+        information.append(String.format("Total dist: %g\n", data.getTotalDistance()));
+    }
+
     Runnable APIGetter = new Runnable() {
         @Override
         public void run() {
             HttpGetTask httpGetTask = new HttpGetTask(new ArrayList<NameValuePair>(0), accessToken) {
                 @Override
                 public void DoWithJSON(JSONObject obj) {
+                    Log.i("JSON", obj.toString());
                     //Do whatever with your trips JSON
+                    int len = 0;
                     JSONArray tripArray = new JSONArray();
                     try {
                         tripArray = obj.getJSONArray("Data");
@@ -107,7 +116,12 @@ public class MojioInterface extends Activity {
                         e.printStackTrace();
                     }
                     //
-                    for (int i = 0; i < tripArray.length(); i++) {
+                    try {
+                        len = obj.getInt("PageSize");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    for (int i = 0; i < len; i++) {
                         JSONObject trip = new JSONObject();
                         try {
                             trip = tripArray.getJSONObject(i);
@@ -116,7 +130,7 @@ public class MojioInterface extends Activity {
                         }
                         String timeString = new String();
                         try {
-                            timeString = trip.getString("Time");
+                            timeString = trip.getString("EndTime");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -137,6 +151,15 @@ public class MojioInterface extends Activity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+                            if (efficency < data.getBestEfficiency()) {
+                                player.expUp(10*player.getLevel());
+                            }
+                            if (efficency < data.getAverageEfficiency()) {
+                                player.expUp(player.getLevel());
+                            } else if (efficency > data.getAverageEfficiency()+7) {
+                                player.damage(2);
+                            }
+                            updateAvatarStats();
                             data.setAverageEfficiency(efficency);
                             data.setLastEfficiency(efficency);
                             data.setBestEfficiency(efficency);
@@ -148,11 +171,12 @@ public class MojioInterface extends Activity {
 
                         }
                     }
+                    updateInformation();
                 }
             };
-            httpGetTask.execute("https://api.moj.io/v1/Trips?limit=10&offset=0&sortBy=StartTime&desc=false&criteria=");
+            httpGetTask.execute("https://api.moj.io:443/v1/Trips?limit=2&offset=0&sortBy=EndTime&desc=true&criteria=");
 
-            mHandler.postDelayed(APIGetter,5000);
+            mHandler.postDelayed(APIGetter,1000);
         }
     };
 

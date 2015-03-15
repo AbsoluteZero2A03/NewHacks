@@ -66,7 +66,7 @@ public abstract class HttpGetTask extends AsyncTask<String,Void,HttpResponse> {
         try {
             InputStream is = httpResponse.getEntity().getContent();
             int c;
-            byte[] b = new byte[2048];
+            byte[] b = new byte[1000000];
             String ss;
             is.read(b);
             String s = new String(b);
@@ -74,7 +74,7 @@ public abstract class HttpGetTask extends AsyncTask<String,Void,HttpResponse> {
                 JSONObject obj = new JSONObject(s);
                 DoWithJSON(obj);
                 double d = obj.getJSONArray("Data").getJSONObject(0).getDouble("FuelEfficiency");
-                //System.out.println(d);
+                System.out.println(d);
             } catch (Exception e) {
                 e.printStackTrace();
             }

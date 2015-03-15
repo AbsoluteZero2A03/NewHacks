@@ -83,43 +83,17 @@
         android:layout_toLeftOf="@+id/tasks"
         android:layout_toStartOf="@+id/tasks" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Action"
-        android:id="@+id/button"
-        android:layout_above="@+id/information"
-        android:layout_toRightOf="@+id/healthbar"
-        android:layout_toEndOf="@+id/healthbar" />
-
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/information"
-        android:layout_below="@+id/healthbar"
         android:layout_toRightOf="@+id/expbar"
         android:layout_alignBottom="@+id/level"
         android:layout_alignRight="@+id/tasks"
-        android:layout_alignEnd="@+id/tasks" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Remove Action"
-        android:id="@+id/button2"
-        android:layout_above="@+id/information"
-        android:layout_toRightOf="@+id/button"
-        android:layout_toEndOf="@+id/button" />
-
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinner"
-        android:layout_above="@+id/information"
-        android:layout_toRightOf="@+id/button2"
-        android:layout_alignTop="@+id/button2"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignEnd="@+id/tasks"
+        android:layout_alignTop="@+id/health"
+        android:textAlignment="gravity"
+        android:gravity="right"/>
 
 </RelativeLayout>
