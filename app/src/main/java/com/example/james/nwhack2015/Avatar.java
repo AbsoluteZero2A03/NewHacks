@@ -22,6 +22,11 @@ public class Avatar {
         setMaxExp(10);
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
     public String getName() {
         return name;
     }
