@@ -13,6 +13,8 @@ public class Action {
     private int value; // value used for exp and damage
 
     public Action() {
+        name = "";
+        description = "";
         positive = true;
         daily = false;
         value = 1;
