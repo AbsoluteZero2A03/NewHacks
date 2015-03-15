@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -17,10 +18,17 @@ import java.util.jar.Attributes;
 
 public class MojioInterface extends Activity {
     private String accessToken;
+    private ProgressBar healthBar;
+    private ProgressBar expBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mojio_interface);
+        healthBar = (ProgressBar) findViewById(R.id.healthbar);
+        expBar = (ProgressBar) findViewById(R.id.expbar);
+        healthBar.setMax(100);
+        expBar.setMax(100);
+        healthBar.setProgress(50);
     }
 
     @Override
