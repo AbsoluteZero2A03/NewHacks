@@ -70,7 +70,7 @@ public class Avatar {
         exp += fred;
         if (exp >= maxExp) {
             level++;
-            exp = 0;
+            exp -= maxExp;
             maxExp += 20;
             maxHealth += 15;
             health = maxHealth;
@@ -93,7 +93,7 @@ public class Avatar {
     }
 
     private int calDam(int loss) {
-        return loss * level;
+        return loss * ((level/2)+1);
     }
 
     private int calExp(int gain) {
